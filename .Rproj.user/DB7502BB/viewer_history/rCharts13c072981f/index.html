@@ -1,0 +1,179 @@
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    <link rel='stylesheet' href='nvd3/css/nv.d3.css'>
+    <link rel='stylesheet' href='nvd3/css/rNVD3.css'>
+    
+    <script src='nvd3/js/jquery-1.8.2.min.js' type='text/javascript'></script>
+    <script src='nvd3/js/d3.v3.min.js' type='text/javascript'></script>
+    <script src='nvd3/js/nv.d3.min-new.js' type='text/javascript'></script>
+    <script src='nvd3/js/fisheye.js' type='text/javascript'></script>
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 800px;
+      height: 800px;
+    }  
+    </style>
+    
+  </head>
+  <body >
+    
+    <div id = 'chart13c0437f38bc' class = 'rChart nvd3'></div>    
+    <script type='text/javascript'>
+ $(document).ready(function(){
+      drawchart13c0437f38bc()
+    });
+    function drawchart13c0437f38bc(){  
+      var opts = {
+ "dom": "chart13c0437f38bc",
+"width":    800,
+"height":    800,
+"x": "Degree",
+"y": "Number",
+"type": "multiBarHorizontalChart",
+"stacked": false,
+"id": "chart13c0437f38bc" 
+},
+        data = [
+ {
+ "Degree": "Business",
+"Number": 366815,
+"WSJPercent":           20.5,
+"Percentage": 24.74784274833 
+},
+{
+ "Degree": "Social Sciences or History",
+"Number": 178543,
+"WSJPercent":             10,
+"Percentage": 12.04572901276 
+},
+{
+ "Degree": "Health and related Programs",
+"Number": 163440,
+"WSJPercent":            9.1,
+"Percentage": 11.02677758212 
+},
+{
+ "Degree": "Psychology",
+"Number": 108986,
+"WSJPercent":            6.1,
+"Percentage": 7.352939192152 
+},
+{
+ "Degree": "Education",
+"Number": 105785,
+"WSJPercent":            5.9,
+"Percentage": 7.136977891122 
+},
+{
+ "Degree": "Biological and Biomedical Science",
+"Number": 95849,
+"WSJPercent":            5.4,
+"Percentage": 6.466627535909 
+},
+{
+ "Degree": "Visual and Performing Arts",
+"Number": 95797,
+"WSJPercent":            5.3,
+"Percentage": 6.463119261103 
+},
+{
+ "Degree": "Communications or Journalism",
+"Number": 83770,
+"WSJPercent":            4.7,
+"Percentage": 5.651695778601 
+},
+{
+ "Degree": "Engineering",
+"Number": 81382,
+"WSJPercent":            4.5,
+"Percentage": 5.490585004824 
+},
+{
+ "Degree": "English or Literature",
+"Number": 53767,
+"WSJPercent":              3,
+"Percentage":  3.62748868244 
+},
+{
+ "Degree": "Homeland security or Law enforcement or Firefighting",
+"Number": 53767,
+"WSJPercent":              3,
+"Percentage":  3.62748868244 
+},
+{
+ "Degree": "Computer and information sciences",
+"Number": 47384,
+"WSJPercent":            2.6,
+"Percentage": 3.196847950021 
+},
+{
+ "Degree": "Liberal arts and sciences or general studies or humanities",
+"Number": 46925,
+"WSJPercent":            2.6,
+"Percentage": 3.165880678177 
+} 
+]
+  
+      if(!(opts.type==="pieChart" || opts.type==="sparklinePlus" || opts.type==="bulletChart")) {
+        var data = d3.nest()
+          .key(function(d){
+            //return opts.group === undefined ? 'main' : d[opts.group]
+            //instead of main would think a better default is opts.x
+            return opts.group === undefined ? opts.y : d[opts.group];
+          })
+          .entries(data);
+      }
+      
+      if (opts.disabled != undefined){
+        data.map(function(d, i){
+          d.disabled = opts.disabled[i]
+        })
+      }
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .width(opts.width)
+          .height(opts.height)
+          
+        if (opts.type != "bulletChart"){
+          chart
+            .x(function(d) { return d[opts.x] })
+            .y(function(d) { return d[opts.y] })
+        }
+          
+         
+        chart
+  .margin({
+ "top":     30,
+"right":     20,
+"bottom":     20,
+"left":    400 
+})
+          
+        
+
+        
+        
+        
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+    
+    <script></script>    
+  </body>
+</html>

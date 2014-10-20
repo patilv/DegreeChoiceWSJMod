@@ -1,0 +1,16 @@
+{
+    "contents" : "title:            Adventures in Analytics and Visualization\ndescription:      Vivek Patil's website and blog for analytics and visualization\ndisqus_shortname: analyticsandvisualization\nurl:              http://localhost:4000\n#url:              http://patilv.github.io\n# Owner/author information\n\nowner:\n  name:           Vivek Patil\n  avatar:         Vivekwebsite.jpg\n  bio:            \"\"\n  email:          patilv@gmail.com\n  \n# Social networking links used in footer. Update and remove as you like.\n  twitter:        vivekhpatil\n  facebook:       \n  github:         patilv\n  stackexchange:  \n  linkedin:       vpatil\n  instagram:        \n  flickr:         \n  tumblr:         \n  # For Google Authorship https://plus.google.com/authorship\n  google_plus:    https://plus.google.com/u/0/105720047530833545102/posts\n\n# Background image to be tiled on all pages\nbackground: \n\n# Analytics and webmaster tools stuff goes here\ngoogle_analytics:   UA-44143720-2\ngoogle_verify:      \n# https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here\nbing_verify:         \n\n# Links to include in top navigation\n# For external links add external: true\nlinks:\n  - title: R Resources\n    url: /r-resources\n  - title: Public Datasets\n    url: /public-datasets\n  - title: Besides Data Analysis\n    url: /besidesDA\n    #external: true\n  \n\n# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones\ntimezone:    America/Seattle\nfuture:      true\nhighlighter: pygments\nmarkdown:    kramdown\n\n# https://github.com/mojombo/jekyll/wiki/Permalinks\npermalink:   /:categories/:title/\n\n# Number of posts in most recent posts\npaginate: 1\n\nkramdown:\n  auto_ids: true\n  footnote_nr: 1\n  entity_output: as_char\n  toc_levels: 1..6\n  use_coderay: true\n\n  coderay:\n    coderay_line_numbers: nil\n    coderay_line_numbers_start: 1\n    coderay_tab_width: 4\n    coderay_bold_every: 10\n    coderay_css: class\n\ninclude: [\".htaccess\"]\nexclude: [\"lib\", \"config.rb\", \"Capfile\", \"config\", \"log\", \"Rakefile\", \"Rakefile.rb\", \"tmp\", \"less\", \"*.sublime-project\", \"*.sublime-workspace\", \"test\", \"spec\", \"Gruntfile.js\", \"package.json\", \"node_modules\"]\n",
+    "created" : 1413838126907.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4064427882",
+    "id" : "9064115F",
+    "lastKnownWriteTime" : 1413838136,
+    "path" : "~/GitHub/patilv.github.io/_config.yml",
+    "project_path" : null,
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "text"
+}

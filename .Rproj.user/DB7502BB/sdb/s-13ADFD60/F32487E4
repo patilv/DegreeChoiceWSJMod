@@ -1,0 +1,16 @@
+{
+    "contents" : "# set directory of jekyll blog\nbase <- \"/Users/patil.GONZAGA/documents/github/patilv.github.io\"\n# set the directory to where your Rmd's reside\nrmds <- \"_Rmd\"\nsetwd(base)\n\n# set name of file\nfilename <- \"2014-10-20-WSJMod.Rmd\"\n\n# Previous version would loop through folder\n# But I never need to do that. One file at a time\n# restrict to .Rmd without the 'Processed' prefix\n# files <- dir(rmds, pattern=\"^[^P]*.Rmd\", full.names=TRUE)\n\n\n# path for folders\nfigs.path <- \"img/\"\nposts.path <- \"_posts/\"\n\n# start\nrequire(knitr)\nrender_jekyll(highlight=\"pygments\")\nopts_knit$set(base.url=\"/\")\n\nfile <- paste0(rmds, \"/\", filename)\n\n# set filepath\nfig.path <- paste0(figs.path, sub(\".Rmd$\", \"\", basename(file)), \"/\")\nopts_chunk$set(fig.path=fig.path)\n\n# suppress messages\nopts_chunk$set(cache=F, warning=F, message=F, cache.path=\"_cache/\", tidy=F)\n\nout.file <- basename(knit(file))\nfile.rename(out.file, paste0(posts.path, out.file))\n# file.rename(file, paste0(rmds, \"Processed-\", file))",
+    "created" : 1413837750958.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4215242771",
+    "id" : "F32487E4",
+    "lastKnownWriteTime" : 1413838655,
+    "path" : "C:/Users/patil.GONZAGA/Dropbox/Reverything/RmdJekyllConvert.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

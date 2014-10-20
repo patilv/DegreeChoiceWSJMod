@@ -1,0 +1,97 @@
+This post uses ggplot2 and rCharts to modify a grouped bar chart that appeared in an article that appeared online on October 19, 2014 in Wall Street Journal's site. The article was titled ["How to Sell a Liberal-Arts Education"](http://online.wsj.com/articles/how-a-college-president-sells-a-liberal-arts-education-1413751480). The code for the Rmarkdown file that generated this post can be [found on github.](https://github.com/patilv/DegreeChoiceWSJMod)
+
+The article used the following grouped bar chart. 
+
+<img src="/img/2014-10-20-WSJMod/degreechoice.jpg">
+
+The intent of the graph is two fold.
+
+1) To facilitate a comparison between the number of different bachelor's degrees awarded, and 
+2) To facilitate a comparison between the percentage of students awarded with different bachelor's degrees.
+
+(One might also question whether the demand for a degree is accurately reflected by number of degrees awarded.) 
+
+The grouped bar chart is designed to facilitate a comparison between different sub groups of a main group. That said, the construction of the graph gets the eye to compare the lengths of the differently colored bars within each degree. For example within Business, one would seek a comparison between the length of the two bars for 366,815 and 20.85%, a comparison anyone would deem to be meaningless. 
+
+## Iteration 1
+
+This is the first attempt at modifying that graph, which is motivated by an example from [Stephen Few](http://www.perceptualedge.com/articles/visual_business_intelligence/save_the_pies_for_dessert.pdf).
+
+```{r setup, echo=FALSE}
+library(knitr)
+opts_chunk$set(
+  tidy=TRUE,
+  tidy.opts=list(width.cutoff=70,replace.assign=TRUE))
+```
+
+
+```{r fig.width=15,fig.height=7}
+library(ggplot2)
+library(ggthemes)
+library(rCharts)
+suppressMessages(library(dplyr))
+suppressMessages(library(gridExtra))
+wsjdata=read.csv("wsjdata.csv")
+wsjdata=wsjdata%>%mutate(Percentage=(Number*100/(sum(Number))))
+
+ggplot(wsjdata,aes(reorder(Degree,Number),Number))+geom_bar(stat="identity",fill="grey")+geom_text(aes(label=Number),hjust=1)+ scale_x_discrete(breaks=reorder(wsjdata$Degree,wsjdata$Number), labels=paste(reorder(wsjdata$Degree,wsjdata$Number),": ",round(wsjdata$Percentage,2),"%",sep=""))+  coord_flip()+theme_tufte(base_family="sans", base_size=16, ticks=F)+theme(axis.title=element_blank(),axis.text.x=element_blank()) + ggtitle("Numbers and Percentages of students with specific degrees \n (Percentages add up to 100)")
+```
+
+The percentages we find in our calculation do not match up with what the original chart shows. In fact, percentage numbers from WSJ's chart add up to 82.7%. They either did not include a catch-all "Other Degrees" category or did not compute the numbers correctly. In either case, there is an issue. [82.7% of 1792273.277 happens to be 1482210, the sum of students who graduated from degrees listed in the graphic. Thus, approximately 310063 students graduated with other degrees.]
+
+In the following example, we assume those numbers from WSJ's graphic to be correct and just separate the raw numbers from the percentages and show two different charts. 
+
+## Iteration 2
+
+```{r fig.width=25,fig.height=10,dpi=300}
+
+rawplot=ggplot(wsjdata,aes(reorder(Degree,Number),Number))+geom_bar(stat="identity",fill="grey")+geom_text(aes(label=Number),hjust=1)+ coord_flip()+theme_tufte(base_family="sans", ticks=F)+ theme(axis.title=element_blank(),axis.text.x=element_blank(),axis.text.y=element_text(size=18)) + ggtitle("Numbers of students with specific degrees")
+
+percentageplot=ggplot(wsjdata,aes(reorder(Degree,WSJPercent),WSJPercent))+geom_bar(stat="identity",fill="grey")+geom_text(aes(label=paste(WSJPercent,"%",sep="")),hjust=1)+ coord_flip()+theme_tufte(base_family="sans",ticks=F)+ theme(axis.title=element_blank(),axis.text=element_blank()) + ggtitle("Percentage of students with specific degrees")
+
+grid.arrange(rawplot,percentageplot,ncol=2)
+```
+
+There is redundancy built in to the two plots and not much new information is gained, despite using a lot of space. I prefer the cleaner single-chart look. Here's the last iteration of the static version, which is slightly different from the first version shown above. 
+
+## Iteration 3
+
+```{r fig.width=20,fig.height=7}
+ggplot(wsjdata,aes(reorder(Degree,Number),Number))+geom_bar(stat="identity",fill="grey")+geom_text(aes(label=paste(Number," (",WSJPercent,"%",")",sep="")),hjust=1) +coord_flip()+theme_tufte(base_family="sans", base_size=16, ticks=F)+theme(axis.title=element_blank(),axis.text.x=element_blank()) + ggtitle("Numbers and Percentages of students with specific degrees")
+```
+
+## Interactive Version (Please hover over the bars for information)
+
+<style>
+iframe[seamless]{
+    background-color: transparent;
+    border: 0px none transparent;
+    padding: 0px;
+    overflow: hidden;
+}
+</style>
+
+```{r}
+np1=nPlot(Number~Degree,data=wsjdata,type ="multiBarHorizontalChart", height=600)
+np1$chart(margin=list(top= 30, right= 20, bottom= 20, left=400),
+          showLegend = FALSE, showControls=F)
+np1$chart(tooltipContent = "#! function(key, x, y, WSJPercent)
+          {return key + ':' + y + '<br>'+ 'Degree:' + x + '<br>'+ 
+          'Percent:'+ WSJPercent.point.WSJPercent} !#"
+)
+np1$yAxis(tickFormat="#!d3.format(',f')!#")
+np1$chart(color=c("#999999","#002865"))
+#np1$publish("np1wsjmod",host="gist")
+```
+<iframe frameborder="0" allowtransparency="true" height="650" width="100%" src="http://bl.ocks.org/patilv/raw/b23659d523903d9a229c/"></iframe>
+
+
+
+
+
+
+
+
+
+
+
